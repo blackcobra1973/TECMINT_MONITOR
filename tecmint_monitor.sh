@@ -9,9 +9,6 @@
 #! /bin/bash
 # unset any variable which system may be using
 
-# clear the screen
-clear
-
 unset tecreset os architecture kernelrelease internalip externalip nameserver loadaverage
 
 while getopts iv name
@@ -85,6 +82,8 @@ elif [ "${OS}" = "Linux" ] ; then
         DIST='Mandrake'
         PSUEDONAME=`cat /etc/mandrake-release | sed s/.*\(// | sed s/\)//`
         REV=`cat /etc/mandrake-release | sed s/.*release\ // | sed s/\ .*//`
+    elif [ -f /etc/os-release ]; then
+	DIST=`awk -F "PRETTY_NAME=" '{print $2}' /etc/os-release | tr -d '\n"'`
     elif [ -f /etc/debian_version ] ; then
         DIST="Debian `cat /etc/debian_version`"
         REV=""
